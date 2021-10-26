@@ -208,6 +208,18 @@ elif app_mode == 'Run on Video':
             vid = cv2.VideoCapture(DEMO_VIDEO)
             tffile.name = DEMO_VIDEO
 
+    else:
+        tffile.write(video_file_buffer.read())
+        vid = cv2.VideoCapture(tffile.name)
+
+    width = int(vid.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps_input = int(vid.get(cv2.CAP_PROP_FPS))
+
+    # Recording Part
+    codec = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+    out = cv2.Video('output1.mp4', codec, fps_input, (width, height))
+
     # Dashboard
     with mp_face_mesh.FaceMesh(
         static_image_mode=True,
